@@ -10,63 +10,54 @@
   # none
   #%]
 
-[% title = BLOCK %]Welcome to Bugzilla[% END %]
+[% title = BLOCK %]欢迎来到Bugzilla[% END %]
 
 [% PROCESS global/header.html.tmpl
    title = title
-   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   header_addl_info = "版本$constants.BUGZILLA_VERSION"
 %]
 
 <div id="welcome-admin">
-  <p>Welcome, [% user.identity FILTER html %].</p>
+  <p>你好，[% user.identity FILTER html %]。</p>
 
-  <p>You are seeing this page because some of the core parameters have not been set up yet.
-  The goal of this page is to inform you about the last steps required to set up
-  your installation correctly.</p>
+  <p>您看到此页面是因为一些重要参数尚未设置。
+  本页面的目标是告知您正确设置实例所需的最后步骤。</p>
 
-  <p>As an administrator, you have access to all administrative pages, accessible from
-  the <a href="admin.cgi">Administration</a> link visible at the bottom of this page.
-  This link will always be visible, on all pages. From there, you must visit at least
-  the <a href="editparams.cgi">Parameters</a> page, from where you can set all important
-  parameters for this installation; among others:</p>
+  <p>作为管理员，您可从底部的<a href="admin.cgi">管理</a>链接访问所有管理页面。
+  此链接将始终在所有页面上可见。从那里，您必须至少访问<a href="editparams.cgi">参数页面</a>，
+  从那里您可以为此实例设置所有重要参数；除此之外：</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=core#urlbase_desc">urlbase</a>, which is the URL
-    pointing to this installation and which will be used in emails (which is also the
-    reason you see this page: as long as this parameter is not set, you will see this
-    page again and again).</li>
+    <li><a href="editparams.cgi?section=core#urlbase_desc">urlbase</a><br>
+    这是指向此实例的地址，
+    将在电子邮件中使用（这也是您看到此页面的原因：只要此参数未设置，您将重复看到此页面）。</li>
 
-    <li><a href="editparams.cgi?section=general#maintainer_desc">maintainer</a>,
-      the person responsible for this installation if something is
-      running wrongly.</li>
+    <li><a href="editparams.cgi?section=general#maintainer_desc">maintainer</a><br>
+    如果出现问题，负责此实例的人。</li>
   </ul>
 
-  <p>Also important are the following parameters:</p>
+  <p>以下参数也很重要：</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=auth#requirelogin_desc">requirelogin</a>, if turned
-    on, will protect your installation from users having no account on this installation.
-    In other words, users who are not explicitly authenticated with a valid account
-    cannot see any data. This is what you want if you want to keep your data private.</li>
+    <li><a href="editparams.cgi?section=auth#requirelogin_desc">requirelogin</a><br>
+    如果打开，将保护您的实例免受在此实例上的访客的侵害。
+    换句话说，未通过有效账户进行显式身份验证的用户无法看到任何数据。
+    如果你想保持数据的私密性，这就是你想要的。</li>
 
-    <li><a href="editparams.cgi?section=auth#createemailregexp_desc">createemailregexp</a>
-    defines which users are allowed to create an account on this installation. If set
-    to ".*" (the default), everybody is free to create their own account. If set to
-    "@mycompany.com$", only users having an account @mycompany.com will be allowed to
-    create an account. If left blank, users will not be able to create accounts themselves;
-    only an administrator will be able to create one for them. If you want a private
-    installation, you must absolutely set this parameter to something different from
-    the default.</li>
+    <li><a href="editparams.cgi?section=auth#createemailregexp_desc">createemailregexp</a><br>
+    定义了允许哪些邮箱在此实例上创建账户。
+    如果设置为“.*”（默认值），每个人都可以自由创建自己的账户。
+    如果设置为“@mycompany.com$”，只有拥有@mycompany.com邮箱的用户才能创建账户。
+    如果留空，用户将无法自己创建账户；只有管理员才能为他们创建账户。
+    如果您想要私有化实例，您绝对必须将此参数设置为与默认值不同的参数。</li>
 
-    <li><a href="editparams.cgi?section=mta#mail_delivery_method_desc">mail_delivery_method</a>
-    defines the method used to send emails, such as sendmail or SMTP. You have to set
-    it correctly to send emails.</li>
+    <li><a href="editparams.cgi?section=mta#mail_delivery_method_desc">mail_delivery_method</a><br>
+    定义了用于发送电子邮件的方法，例如sendmail或SMTP。
+    您必须正确设置此参数才能发送电子邮件。</li>
   </ul>
 
   <p>
-    After having set up all this, we recommend looking at Bugzilla's other
-    parameters as well at some time so that you understand what they do and whether you
-    want to modify their settings for your installation.
+    设置完所有这些后，我们建议在闲暇时查看Bugzilla的其他参数，以便您了解它们的用途，以及您是否要为您的实例修改它们的设置。
   </p>
 </div>
 

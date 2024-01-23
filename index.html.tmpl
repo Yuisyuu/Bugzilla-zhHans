@@ -11,91 +11,90 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-   title = "$terms.Bugzilla Main Page"
-   header = "Main Page" 
-   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   title = "$terms.Bugzilla主页"
+   header = "主页" 
+   header_addl_info = "版本$constants.BUGZILLA_VERSION"
 %]
 
 [% IF release %]
   <div id="new_release">
     [% IF release.data %]
       [% IF release.deprecated %]
-        <p>Bugzilla [%+ release.deprecated FILTER html %] is no longer
-        supported. You are highly encouraged to upgrade in order to keep your
-        system secure.</p>
+        <p>Bugzilla [%+ release.deprecated FILTER html %]已不再受支持。
+        为确保您的系统安全，强烈建议您立即升级。</p>
       [% END %]
 
-      <p>A new Bugzilla version ([% release.data.latest_ver FILTER html %])
-      is available at
-      <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>.<br>
-      Release date: [% release.data.date FILTER html %]</p>
+      <p>新的Bugzilla版本（[% release.data.latest_ver FILTER html %]）
+      已可在
+      <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>获取。<br>
+      发布日期：[% release.data.date FILTER html %]</p>
 
-      <p class="notice">This message is only shown to logged in users with admin privs.
-      You can configure this notification from the
-      <a href="editparams.cgi?section=general#upgrade_notification_desc">Parameters</a> page.</p>
+      <p class="notice">此消息仅显示给具有管理员权限的注册用户。
+      您可以在
+      <a href="editparams.cgi?section=general#upgrade_notification_desc">参数</a>页面配置此通知。</p>
     [% ELSIF release.error == "cannot_download" %]
-      <p>The remote file <a href="[% constants.REMOTE_FILE FILTER html %]">
-      [%~ constants.REMOTE_FILE FILTER html %]</a> cannot be downloaded
-      (reason: [% release.reason FILTER html %]).<br>
-      Either the remote server is temporarily unavailable, or your web server cannot access
-      the web. If you are behind a proxy, set the
-      <a href="editparams.cgi?section=advanced#proxy_url_desc">proxy_url</a> parameter correctly.</p>
+      <p>无法下载<a href="[% constants.REMOTE_FILE FILTER html %]">
+      [%~ constants.REMOTE_FILE FILTER html %]</a>
+      （原因：[% release.reason FILTER html %]）。<br>
+      远程服务器可能暂时不可用，或您的网络服务器无法访问网络。
+      如果您在使用代理，请正确设置
+      <a href="editparams.cgi?section=advanced#proxy_url_desc">proxy_url</a>参数。</p>
     [% ELSIF release.error == "no_write" %]
-      <p>The local XML file '[% constants.LOCAL_FILE FILTER html %]' cannot be created
-      (reason: [% release.reason FILTER html %]).<br>
-      Please make sure the web server can write into this directory.
+      <p>无法创建《[% constants.LOCAL_FILE FILTER html %]》
+      （原因：[% release.reason FILTER html %]）。<br>
+      请确保可以写入此目录。
     [% ELSIF release.error == "no_update" %]
-      <p>The local XML file '[% constants.LOCAL_FILE FILTER html %]' cannot be updated.
-      Please make sure the web server can edit this file.</p>
+      <p>无法更新《[% constants.LOCAL_FILE FILTER html %]》。
+      请确保可以编辑此文件。</p>
     [% ELSIF release.error == "no_access" %]
-      <p>The local XML file '[% constants.LOCAL_FILE FILTER html %]' cannot be read.
-      Please make sure this file has the correct rights set on it.</p>
+      <p>无法读取《[% constants.LOCAL_FILE FILTER html %]》。
+      请确保此文件设置了正确的权限。</p>
     [% ELSIF release.error == "corrupted" %]
-      <p>The local XML file '[% constants.LOCAL_FILE FILTER html %]' has an invalid XML format.
-      Please delete it and try accessing this page again.</p>
+      <p>《[% constants.LOCAL_FILE FILTER html %]》的格式无效。
+      请删除它并重试访问此页面。</p>
     [% ELSIF release.error == "unknown_parameter" %]
-      <p>'[% Param("upgrade_notification") FILTER html %]' is not a valid notification
-      parameter. Please check this parameter in the
-      <a href="editparams.cgi?section=general#upgrade_notification_desc">Parameters</a> page.</p>
+      <p>“[% Param("upgrade_notification") FILTER html %]”为无效的通知参数。
+      请在
+      <a href="editparams.cgi?section=general#upgrade_notification_desc">参数</a>页面中检查此参数。</p>
     [% END %]
   </div>
 [% END %]
 
 <div id="page-index">
-  <h1 id="welcome"> Welcome to [% terms.Bugzilla %]</h1>
+  <h1 id="welcome">欢迎来到[% terms.Bugzilla %]</h1>
   <div class="intro">[% Hook.process('intro') %]</div>
 
   <div class="bz_common_actions">
     <ul>
       <li>
-        <a id="enter_bug" href="enter_bug.cgi"><span>File [% terms.aBug %]</span></a>
+        <a id="enter_bug" href="enter_bug.cgi"><span>报告新[% terms.aBug %]</span></a>
       </li>
       <li>
-        <a id="query" href="query.cgi"><span>Search</span></a>
+        <a id="query" href="query.cgi"><span>搜索</span></a>
       </li>
       <li>
         <a id="account"
           [% IF user.id %]
-            href="userprefs.cgi"><span>User Preferences</span></a>
+            href="userprefs.cgi"><span>设置</span></a>
           [% ELSIF Param('createemailregexp') && user.authorizer.user_can_create_account %]
-            href="createaccount.cgi"><span>Open a New Account</span></a>
+            href="createaccount.cgi"><span>新用户注册</span></a>
           [% ELSE %]
-            href="?GoAheadAndLogIn=1"><span>Log In</span></a>
+            href="?GoAheadAndLogIn=1"><span>登录</span></a>
           [% END %]
       </li>
       <li>
-        <a id="help" href="[% docs_urlbase FILTER html %]using/index.html"><span>Documentation</span></a>
+        <a id="help" href="[% docs_urlbase FILTER html %]using/index.html"><span>Bugzilla文档</span></a>
       </li>
     </ul>
   </div>
 
   <div>
     <form id="quicksearchForm" name="quicksearchForm" action="buglist.cgi">
-      <input id="quicksearch_main" name="quicksearch" title="Quick Search"
-             placeholder="Enter [% terms.abug %] # or some search terms"
+      <input id="quicksearch_main" name="quicksearch" title="快速搜索"
+             placeholder="输入[% terms.abug %]编号或关键词"
              autofocus required>
-      <input id="find" type="submit" value="Quick Search">
-      <a href="page.cgi?id=quicksearch.html" title="Quick Search help">[?]</a>
+      <input id="find" type="submit" value="快速搜索">
+      <a href="page.cgi?id=quicksearch.html" title="快速搜索帮助">[?]</a>
     </form>
 
     <ul class="additional_links">
@@ -104,28 +103,28 @@
   </div>
 
   <div id="common_queries">
-    <h4>Common Queries:</h4>
+    <h4>常见查询：</h4>
     <ul>
       [% IF user.id %]
         <li>
-          [% title = BLOCK %]Open [% terms.bugs %] assigned to me[% END %]
+          [% title = BLOCK %]分配给我的开放[% terms.bugs %][% END %]
           <a href="buglist.cgi?f1=assigned_to&amp;o1=equals&amp;v1=%25user%25&amp;resolution=---">
-            [% title FILTER html %]</a> ([% assignee_count FILTER html %])
+            [% title FILTER html %]</a>（[% assignee_count FILTER html %]）
           <a href="buglist.cgi?f1=assigned_to&amp;o1=equals&amp;v1=%25user%25&amp;resolution=---&amp;ctype=atom&amp;title=[% title FILTER uri %]"
              class="rss">&nbsp;</a>
         </li>
         <li>
-          [% title = BLOCK %]Open [% terms.bugs %] reported by me[% END %]
+          [% title = BLOCK %]我报告的开放[% terms.bugs %][% END %]
           <a href="buglist.cgi?f1=reporter&amp;o1=equals&amp;v1=%25user%25&amp;resolution=---">
-            [% title FILTER html %]</a> ([% reporter_count FILTER html %])
+            [% title FILTER html %]</a>（[% reporter_count FILTER html %]）
           <a href="buglist.cgi?f1=reporter&amp;o1=equals&amp;v1=%25user%25&amp;resolution=---&amp;ctype=atom&amp;title=[% title FILTER uri %]"
              class="rss">&nbsp;</a>
         </li>
         [% IF Bugzilla.has_flags %]
           <li>
-            [% title = BLOCK %]Requests addressed to me[% END %]
+            [% title = BLOCK %]与我有关的报告[% END %]
             <a href="request.cgi?action=queue&amp;requestee=[% user.login FILTER uri %]&amp;group=type&amp;do_union=0">
-              [% title FILTER html %]</a> ([% requestee_count FILTER html %])
+              [% title FILTER html %]</a>（[% requestee_count FILTER html %]）
             <a href="buglist.cgi?f1=requestees.login_name&amp;o1=equals&amp;v1=%25user%25&amp;ctype=atom&amp;title=[% title FILTER uri %]"
                class="rss">&nbsp;</a>
           </li>
@@ -133,26 +132,28 @@
       [% END %]
 
       <li>
-        [% terms.Bugs %] reported in the
-        <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=24h">last 24 hours</a>
-        [% title = BLOCK %][% terms.Bugs %] reported in the last 24 hours[% END %]
+        近
+        <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=24h">24小时</a>
+        [% title = BLOCK %]近24小时报告的[% terms.Bugs %][% END %]
         <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=24h&amp;ctype=atom&amp;title=[% title FILTER uri %]"
            class="rss">&nbsp;</a>
-        | <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=7d">last 7 days</a>
-        [% title = BLOCK %][% terms.Bugs %] reported in the last 7 days[% END %]
+        | <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=7d">7日</a>
+        [% title = BLOCK %]近7日报告的[% terms.Bugs %][% END %]
         <a href="buglist.cgi?chfield=%5BBug%20creation%5D&amp;chfieldfrom=7d&amp;ctype=atom&amp;title=[% title FILTER uri %]"
            class="rss">&nbsp;</a>
+        报告的[% terms.Bugs %]
       </li>
       <li>
-        [% terms.Bugs %] changed in the
-        <a href="buglist.cgi?chfieldfrom=24h">last 24 hours</a>
-        [% title = BLOCK %][% terms.Bugs %] changed in the last 24 hours[% END %]
+        近
+        <a href="buglist.cgi?chfieldfrom=24h">24小时</a>
+        [% title = BLOCK %]近24小时修改过的[% terms.Bugs %][% END %]
         <a href="buglist.cgi?chfieldfrom=24h&amp;ctype=atom&amp;title=[% title FILTER uri %]"
            class="rss">&nbsp;</a>
-        | <a href="buglist.cgi?chfieldfrom=7d">last 7 days</a>
-        [% title = BLOCK %][% terms.Bugs %] changed in the last 7 days[% END %]
+        | <a href="buglist.cgi?chfieldfrom=7d">7日</a>
+        [% title = BLOCK %]近7日修改过的[% terms.Bugs %][% END %]
         <a href="buglist.cgi?chfieldfrom=7d&amp;ctype=atom&amp;title=[% title FILTER uri %]"
            class="rss">&nbsp;</a>
+        修改过的[% terms.Bugs %]
       </li>
     </ul>
   </div>
