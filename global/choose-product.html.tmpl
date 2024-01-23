@@ -14,18 +14,18 @@
   #%]
 
 [% IF target == "enter_bug.cgi" %]
-  [% title = "Enter $terms.Bug" %]
-  [% subheader = "Select Product" %]
+  [% title = "报告$terms.Bug" %]
+  [% subheader = "选择项目" %]
   [% h2 = BLOCK %]
-    [% IF Param('useclassification') %]Next[% ELSE %]First[% END %],
-    you must pick a product on which to enter [% terms.abug %]:
+    [% IF Param('useclassification') %]其次[% ELSE %]首先[% END %]，
+    您必须选择要报告[% terms.abug %]的项目：
   [% END %]
 [% ELSIF target == "describecomponents.cgi" %]
   [% title = "Browse" %]
-  [% h2 = "Select a product category to browse:" %]
+  [% h2 = "选择要浏览的项目分类：" %]
 [% END %]
 
-[% DEFAULT title = "Choose a Product" %]
+[% DEFAULT title = "选择一个项目" %]
 [% PROCESS global/header.html.tmpl %]
 
 [% USE Bugzilla %]
@@ -38,7 +38,7 @@
 [% FOREACH c = classifications %]
   [% IF c.object %]
     <tr>
-      <th colspan="2" class="left">[% c.object.name FILTER html %]:
+      <th colspan="2" class="left">[% c.object.name FILTER html %]：
       [%+ c.object.description FILTER html_light %]</th>
     </tr>
   [% END %]
@@ -48,7 +48,7 @@
       <th class="right nowrap">
         <a href="[% target %]?product=[% p.name FILTER uri -%]
               [%- IF previous_params %]&amp;[% previous_params FILTER none %][% END -%]">
-        [% p.name FILTER html %]</a>:
+        [% p.name FILTER html %]</a>：
       </th>
 
       <td>[% p.description FILTER html_light %]</td>

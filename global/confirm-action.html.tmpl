@@ -12,31 +12,27 @@
   # reason: reason of the failure.
   #%]
 
-[% PROCESS global/header.html.tmpl title = "Suspicious Action"
+[% PROCESS global/header.html.tmpl title = "可疑行为"
                                    style_urls = ['skins/standard/global.css'] %]
 
 <div class="throw_error">
 <!--reason=[%reason FILTER html %]-->
   [% IF reason == "expired_token" %]
-    Your changes have been rejected because you exceeded the time limit
-    of [% constants.MAX_TOKEN_AGE FILTER html %] days before submitting your
-    changes to [% script_name FILTER html %]. Your page may have been displayed
-    for too long, or old changes have been resubmitted by accident.
+    您的更改已被拒绝，因为您在向[% script_name FILTER html %]
+    提交更改之前超过了[% constants.MAX_TOKEN_AGE FILTER html %]
+    天的时限。您的页面可能显示的时间太长，或者旧的更改意外被重新提交。
 
   [% ELSIF reason == "missing_token" %]
-    It looks like you didn't come from the right page.
-    One reason could be that you entered the URL in the address bar of your
-    web browser directly, which should be safe. Another reason could be that
-    you clicked on a URL which redirected you here <b>without your consent</b>.
+    看起来你不是来自正确的页面。
+    一个原因可能是您直接在网页浏览器的地址栏中输入了URL，这应该是安全的。
+    另一个原因可能是您点击了一个URL，该URL在<b>未经您同意</b>的情况下将您重定向到此处。
 
   [% ELSIF reason == "invalid_token" %]
-    You submitted changes to [% script_name FILTER html %] with an invalid
-    token, which may indicate that someone tried to abuse you, for instance
-    by making you click on a URL which redirected you here <b>without your
-    consent</b>.
+    您提交了带有无效令牌的[% script_name FILTER html %]更改，
+    这可能表明有人试图滥用您，例如让您单击<b>未经您同意</b>将您重定向到此处的URL。
   [% END %]
   <p>
-    Are you sure you want to commit these changes?
+    您确定要提交这些更改吗？
   </p>
 </div>
 
@@ -44,10 +40,9 @@
   [% PROCESS "global/hidden-fields.html.tmpl"
              exclude="^(Bugzilla_login|Bugzilla_password|token)$" %]
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="confirm" value="Yes, Confirm Changes">
+  <input type="submit" id="confirm" value="我确定">
 </form>
 
-<p><a href="index.cgi">No, throw away these changes</a> (you will be redirected
-to the home page).</p>
+<p><a href="index.cgi">抛弃这些更改</a>（您将被重定向到主页）。</p>
 
 [% PROCESS global/footer.html.tmpl %]

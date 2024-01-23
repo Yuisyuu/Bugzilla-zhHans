@@ -25,21 +25,21 @@
 [%# This lists fields which use the user auto-completion feature and which
   # are not listed in field_descs. %]
 [% field_labels = { # Used by editcomponents.cgi
-                    "initialcc"               => "Default CC List",
-                    "initialowner"            => "Default Assignee",
-                    "initialqacontact"        => "Default QA Contact",
+                    "initialcc"               => "默认抄送列表",
+                    "initialowner"            => "默认分配者",
+                    "initialqacontact"        => "默认QA负责人",
                     # Used by process_bug.cgi
-                    "masscc"                  => "CC List",
+                    "masscc"                  => "抄送列表",
                     # Used by request.cgi
-                    "requester"               => "Requester",
-                    "requestee"               => "Requestee",
+                    "requester"               => "请求者",
+                    "requestee"               => "被请求者",
                     # Used by userprefs.cgi
-                    "new_watchedusers"        => "Watch List",
+                    "new_watchedusers"        => "关注列表",
 
    }
 %]
 [% IF matchsuccess == 1 %]
-  [% PROCESS global/header.html.tmpl title="Confirm Match" %]
+  [% PROCESS global/header.html.tmpl title="确认匹配" %]
 
   <form method="post" 
   [% IF script -%]
@@ -52,36 +52,29 @@
 
   <p>
     [% IF matchmultiple %]
-      Bugzilla cannot make a conclusive match for one or more
-      of the names and/or email addresses you entered on the previous page.
-      <br>Please examine the lists of potential matches below and select the
-      ones you want,
+      无法对您在上一页上输入的一个或多个名称和/或电子邮件地址进行最终匹配。
+      <br>请检查下面的潜在匹配项列表，并选择您想要的匹配项
     [% ELSE %]
-      [% terms.Bugzilla %] is configured to require verification whenever
-      you enter a name or partial email address.
-      <br>Below are the names/addresses you entered and the matched accounts.
-      Please confirm that they are correct,
+      以下是您输入的名称/地址和匹配的帐户。请确认它们是否正确
     [% END %]
-    or go back to the previous page to revise the names you entered.
+    ，或返回上一页以修改您输入的名称。
   </p>
 [% ELSE %]
-  [% PROCESS global/header.html.tmpl title="Match Failed" %]
+  [% PROCESS global/header.html.tmpl title="匹配失败" %]
   <p>
-    Bugzilla was unable to make any match at all for one or more of
-    the names and/or email addresses you entered on the previous page.
+    无法与您在上一页上输入的一个或多个名称和/或电子邮件地址进行任何匹配。
     [% IF !user.id %]
-      <b>Note: You are currently logged out. Only exact matches against e-mail
-      addresses will be performed.</b>
+      <b>注意：您当前未登陆。只会对电子邮件地址进行精确匹配。</b>
     [% END %]
   </p>
-  <p>Please go back and try other names or email addresses.</p>
+  <p>请返回并尝试其他名称或电子邮件地址。</p>
 [% END %]
 
 <table id="user_match_table">
   [% FOREACH field = matches %]
     <tr>
       <td>
-        [% PROCESS field_names field_name=field.key %]:
+        [% PROCESS field_names field_name=field.key %]：
       </td>
       <td>
           [% FOREACH query = field.value %]
@@ -91,17 +84,16 @@
                 [% IF query.value.users.size > 1 %]
                   [% IF query.value.status == 'fail' %]
                     <span class="warning">
-                      matches multiple users.
+                      匹配到多名用户。
                     </span>
-                    Please go back and try again with a more specific
-                    name/address.
+                    请返回并使用更具体的名称/地址再试一次。
                   [% ELSE %]
                     [% IF query.value.status == 'trunc' %]
-                      matched
-                      more than the maximum
-                      of [% query.value.users.size %] users:<br>
+                      匹配
+                      超过最多
+                      [% query.value.users.size %]个用户：<br>
                     [% ELSE %]
-                      matched:<br>
+                      匹配：<br>
                     [% END %]
                     <select name="[% field.key FILTER html %]"
                      id="[% field.key FILTER html %]"
@@ -122,15 +114,15 @@
                     </select>
                   [% END %]
                 [% ELSE %]
-                  matched
+                  匹配
                   <b>[% query.value.users.0.identity FILTER html %]</b>
                 [% END %]
             [% ELSE %]
               <span class="warning">
                 [% IF query.key.length < 3 %]
-                  was too short for substring match (minimum 3 characters)
+                  要搜索的子字符串太短（至少3个字符）
                 [% ELSE %]
-                  did not match anything
+                  找不到匹配的资料
                 [% END %]
               </span>
             [% END %]
@@ -151,7 +143,7 @@
   [% PROCESS "global/hidden-fields.html.tmpl" exclude = exclude %]
 
   <p>
-    <input type="submit" id="continue" value="Continue">
+    <input type="submit" id="continue" value="继续">
   </p>
 
   </form>
@@ -168,7 +160,7 @@
   [% ELSIF field_labels.$field_name %]
     [% field_labels.$field_name FILTER html %]
   [% ELSIF field_name.match("^requestee") %]
-    [% fields.${field_name}.flag_type.name FILTER html %] requestee
+    [% fields.${field_name}.flag_type.name FILTER html %]位被请求者
   [% ELSE %]
     [% field_name FILTER html %]
   [% END %]

@@ -7,22 +7,22 @@
   #%]
 
 [% SET reason_descs = {
-  ${constants.REL_ASSIGNEE} => "You are the assignee for the ${terms.bug}.",
-  ${constants.REL_REPORTER} => "You reported the ${terms.bug}.",
-  ${constants.REL_QA}       => "You are the QA Contact for the ${terms.bug}.",
-  ${constants.REL_CC}       => "You are on the CC list for the ${terms.bug}.",
-  ${constants.REL_GLOBAL_WATCHER} => "You are watching all $terms.bug changes.",
+  ${constants.REL_ASSIGNEE} => "您是此${terms.bug}的分配者。",
+  ${constants.REL_REPORTER} => "你报告了此${terms.bug}。",
+  ${constants.REL_QA}       => "您是此${terms.bug}的QA负责人。",
+  ${constants.REL_CC}       => "你在${terms.bug}的抄送列表中。",
+  ${constants.REL_GLOBAL_WATCHER} => "您正在关注所有$terms.bug更改。",
 } %]
 
 [% SET watch_reason_descs => {
   ${constants.REL_ASSIGNEE} =>
-    "You are watching the assignee of the ${terms.bug}.",
+    "您正在关注该${terms.bug}的分配者。",
   ${constants.REL_REPORTER} =>
-    "You are watching the reporter of the ${terms.bug}.",
+    "您正在关注该${terms.bug}的报告者。",
   ${constants.REL_QA}       =>
-    "You are watching the QA Contact of the ${terms.bug}.",
+    "您正在关注该${terms.bug}的QA负责人。",
   ${constants.REL_CC}       =>
-    "You are watching someone on the CC list of the ${terms.bug}.",
+    "您正在关注该${terms.bug}抄送列表中的某人。",
 } %]
 
 [% Hook.process('end') %]
